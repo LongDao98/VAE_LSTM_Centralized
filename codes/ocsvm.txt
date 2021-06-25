@@ -1,0 +1,22 @@
+%%time
+#OCSVM
+e=X_train - predicted_train
+nsamples, nx, ny = e.shape
+d2_e = e.reshape((nsamples,nx*ny))
+
+from sklearn import svm
+clf = svm.OneClassSVM(nu=0.0055, kernel="rbf", gamma=1.5)
+clf.fit(d2_e)
+
+e_t=X_test - predicted
+nsamples, nx, ny = e_t.shape
+d2_e_t = e_t.reshape((nsamples,nx*ny))
+y_scores = clf.predict(d2_e_t)
+precision = precision_score(y_test1, y_scores)
+recall    = recall_score(y_test1, y_scores)
+accuracy = accuracy_score(y_test1, y_scores)
+f1 = f1_score(y_test1, y_scores, average='macro')
+print ('Precision : ', precision)
+print ('Recall: ', recall)
+print ('Accuracy : ', accuracy)
+print ('F1_score: ', f1)
